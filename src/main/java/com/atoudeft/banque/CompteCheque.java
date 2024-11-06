@@ -2,6 +2,7 @@ package com.atoudeft.banque;
 
 public class CompteCheque extends CompteBancaire{
 
+
     /**
      * Crée un compte bancaire.
      *
@@ -14,11 +15,25 @@ public class CompteCheque extends CompteBancaire{
 
     @Override
     public boolean crediter(double montant) {
+        /*
+        if (montant > 0) {
+            solde += montant;
+            return true;
+        }
+         */
+
         return false;
     }
 
     @Override
     public boolean debiter(double montant) {
+        /*
+        if (montant > 0 && solde >= montant) {
+            solde -= montant;
+            return true;
+        }
+         */
+
         return false;
     }
 
