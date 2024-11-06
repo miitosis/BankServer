@@ -121,8 +121,4 @@ public class Banque implements Serializable {
         return null; //À modifier
     }
 }
-
-// 123456789
-// test
-
-    /*/*//**/
+// buhijgyuh
