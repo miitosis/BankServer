@@ -1,7 +1,6 @@
 package com.atoudeft.serveur;
 
-import com.atoudeft.banque.Banque;
-import com.atoudeft.banque.CompteClient;
+import com.atoudeft.banque.*;
 import com.atoudeft.banque.serveur.ConnexionBanque;
 import com.atoudeft.banque.serveur.ServeurBanque;
 import com.atoudeft.commun.evenement.Evenement;
@@ -15,7 +14,12 @@ import com.atoudeft.commun.net.Connexion;
  * @author Abdelmoumène Toudeft (Abdelmoumene.Toudeft@etsmtl.ca)
  * @version 1.0
  * @since 2023-09-01
+ *
+ * AUTEUR: NAJIB TAHIRI
  */
+
+
+
 public class GestionnaireEvenementServeur implements GestionnaireEvenement {
     private Serveur serveur;
 
@@ -103,6 +107,32 @@ public class GestionnaireEvenementServeur implements GestionnaireEvenement {
                             cnx.envoyer("CONNECT OK");
                         } else {
                             cnx.envoyer("CONNECT NO");
+                        }
+                    }
+                    break;
+                case "EPARGNE":
+                    // Vérifier si le client est déjà connecté
+                    if (cnx.getNumeroCompteClient() == null) {
+                        cnx.envoyer("EPARGNE NO");
+
+                    }else{
+                        banque = serveurBanque.getBanque();// Vérification si le client possède déjà un compte épargne
+                        CompteClient compteClient = banque.getCompteClient(cnx.getNumeroCompteClient());
+                        boolean compteEpargneExist = false;
+                        for (CompteBancaire compte : compteClient.getComptes()) {// Parcourir les comptes bancaires du client pour vérifier s'il a déjà un compte épargne
+                            if (compte instanceof CompteEpargne) {
+                                compteEpargneExist = true;
+                                break;
+                            }
+                        }
+                        if (compteEpargneExist) {
+                            cnx.envoyer("EPARGNE NO");// Si un compte épargne existe déjà
+                        } else { // Créer un nouveau compte épargne avec un taux d'intérêt de 5%
+                            String numeroCompte = CompteBancaire.genereNouveauNumero();
+                            CompteEpargne compteEpargne = new CompteEpargne(numeroCompte, TypeCompte.EPARGNE, 0.05);
+                            //
+                            compteClient.ajouter(compteEpargne); // Ajouter le compte épargne à la list
+                            cnx.envoyer("EPARGNE OK"); //compte épargne créé
                         }
                     }
                     break;

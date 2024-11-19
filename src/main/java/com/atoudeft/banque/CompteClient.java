@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+//Auteur: NAJIB TAHIRI
+
 public class CompteClient implements Serializable {
     private String numero;
     private String nip;
@@ -48,6 +50,10 @@ public class CompteClient implements Serializable {
      */
     public boolean ajouter(CompteBancaire compte) {
         return this.comptes.add(compte);
+    }
+
+    public List<CompteBancaire> getComptes() {
+        return comptes;
     }
 
 }
