@@ -107,7 +107,54 @@ public class Banque implements Serializable {
                 . Créer un compte-chèque avec ce numéro et l'ajouter au compte-client;
                 . Ajouter le compte-client à la liste des comptes et retourner true.
          */
-        return this.comptes.add(new CompteClient(numCompteClient,nip)); //À modifier
+        if (numCompteClient.length() <= 8 && numCompteClient.length() >= 6){
+            for (char c : numCompteClient.toCharArray()){
+                if (!Character.isUpperCase(c) || !Character.isDigit(c)){
+                    return false;
+                }
+            }
+
+        } else {
+            return false;
+        }
+
+        if (nip.length() == 4 || nip.length() == 5){
+            for (char c : nip.toCharArray()){
+                if (!Character.isDigit(c)){
+                    return false;
+                }
+            }
+        } else {
+            return false;
+        }
+
+        for (CompteClient cpt : comptes){
+            if (numCompteClient.equals(cpt.getNumero())){
+                return false;
+            }
+        }
+
+        CompteClient compte = new CompteClient(numCompteClient, nip);
+
+        // check si existe
+        String nouvNum = CompteBancaire.genereNouveauNumero();
+        boolean memeNom;
+
+        do {
+            memeNom = true;
+            for (CompteClient cpt : comptes){
+                if (nouvNum.equals(cpt.getNumero())){
+                    memeNom = false;
+                }
+            }
+
+        } while (!memeNom);
+
+        CompteCheque cptCheque = new CompteCheque(nouvNum, TypeCompte.CHEQUE);
+        compte.ajouter(cptCheque);
+
+        comptes.add(compte);
+        return true;
     }
 
     /**
@@ -118,6 +165,9 @@ public class Banque implements Serializable {
      */
     public String getNumeroCompteParDefaut(String numCompteClient) {
         //À compléter : retourner le numéro du compte-chèque du compte-client.
+        for (CompteClient cpt : comptes){
+            // A CONTINUER
+        }
         return null; //À modifier
     }
 }
