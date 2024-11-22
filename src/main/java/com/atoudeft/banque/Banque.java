@@ -130,9 +130,9 @@ public class Banque implements Serializable {
 
         // Verifie comptes avec le meme numero
         // NE MARCHE PAS, A REVOIR
-        if (getCompteClient(numCompteClient) != null){
+        /*if (getCompteClient(numCompteClient) != null){
             return false;
-        }
+        }*/
 
         CompteClient nouvClient = new CompteClient(numCompteClient, nip);
 
