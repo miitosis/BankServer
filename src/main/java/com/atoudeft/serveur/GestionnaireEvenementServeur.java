@@ -157,6 +157,14 @@ public class GestionnaireEvenementServeur implements GestionnaireEvenement {
                         }
                     }
                     break;
+                case "DEPOT":
+                    if (cnx.getNumeroCompteClient() == null || cnx.getNumeroCompteActuel() == null) {
+                        cnx.envoyer("DEPOT NO 1");
+                    } else{
+
+                    }
+
+                    break;
                 /******************* TRAITEMENT PAR DÉFAUT *******************/
                 default: //Renvoyer le texte recu convertit en majuscules :
                     msg = (evenement.getType() + " " + evenement.getArgument()).toUpperCase();
