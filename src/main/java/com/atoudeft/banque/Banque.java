@@ -130,19 +130,33 @@ public class Banque implements Serializable {
 
         // Verifie comptes avec le meme numero
         // NE MARCHE PAS, A REVOIR
-        /*if (getCompteClient(numCompteClient) != null){
-            return false;
-        }*/
+        for(CompteClient client : comptes) {
+            if(client.getNumero().equals(numCompteClient)){
+                return false;
+            }
+        }
 
-        CompteClient nouvClient = new CompteClient(numCompteClient, nip);
+        CompteClient newClient = new CompteClient(numCompteClient, nip);
+        String newNumeroCompte = "";
+        do{
+            newNumeroCompte = CompteBancaire.genereNouveauNumero();
+        }while(compteExisteDeja(newNumeroCompte));
 
-        // Unique
-        String numCpt = CompteBancaire.genereNouveauNumero();
+        CompteCheque compteCheque = new CompteCheque(newNumeroCompte, TypeCompte.CHEQUE);
+        newClient.ajouter(compteCheque);
+        return comptes.add(newClient);
 
-        CompteCheque nouvCheque = new CompteCheque(numCpt, TypeCompte.CHEQUE);
-        nouvClient.ajouter(nouvCheque);
+    }
 
-        return this.comptes.add(nouvClient);
+    private boolean compteExisteDeja(String numeroCompte) {
+        for (CompteClient client : comptes) {
+            for (CompteBancaire compte : client.getComptes()) {
+                if (compte.getNumero().equals(numeroCompte)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
