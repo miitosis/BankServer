@@ -107,54 +107,42 @@ public class Banque implements Serializable {
                 . Créer un compte-chèque avec ce numéro et l'ajouter au compte-client;
                 . Ajouter le compte-client à la liste des comptes et retourner true.
          */
-        if (numCompteClient.length() <= 8 && numCompteClient.length() >= 6){
-            for (char c : numCompteClient.toCharArray()){
-                if (!Character.isUpperCase(c) || !Character.isDigit(c)){
-                    return false;
-                }
-            }
 
-        } else {
+        // Valider numCompteClient
+        if (numCompteClient == null || numCompteClient.length() < 6 || numCompteClient.length() > 8) {
             return false;
         }
-
-        if (nip.length() == 4 || nip.length() == 5){
-            for (char c : nip.toCharArray()){
-                if (!Character.isDigit(c)){
-                    return false;
-                }
-            }
-        } else {
-            return false;
-        }
-
-        for (CompteClient cpt : comptes){
-            if (numCompteClient.equals(cpt.getNumero())){
+        for (char c : numCompteClient.toCharArray()){
+            if (!Character.isUpperCase(c) && !Character.isDigit(c)){
                 return false;
             }
         }
 
-        CompteClient compte = new CompteClient(numCompteClient, nip);
-
-        // check si existe
-        String nouvNum = CompteBancaire.genereNouveauNumero();
-        boolean memeNom;
-
-        do {
-            memeNom = true;
-            for (CompteClient cpt : comptes){
-                if (nouvNum.equals(cpt.getNumero())){
-                    memeNom = false;
-                }
+        // Valider nip
+        if (nip == null || nip.length() < 4 || nip.length() > 5){
+            return false;
+        }
+        for (char c : nip.toCharArray()){
+            if (!Character.isDigit(c)){
+                return false;
             }
+        }
 
-        } while (!memeNom);
+        // Verifie comptes avec le meme numero
+        // NE MARCHE PAS, A REVOIR
+        if (getCompteClient(numCompteClient) != null){
+            return false;
+        }
 
-        CompteCheque cptCheque = new CompteCheque(nouvNum, TypeCompte.CHEQUE);
-        compte.ajouter(cptCheque);
+        CompteClient nouvClient = new CompteClient(numCompteClient, nip);
 
-        comptes.add(compte);
-        return true;
+        // Unique
+        String numCpt = CompteBancaire.genereNouveauNumero();
+
+        CompteCheque nouvCheque = new CompteCheque(numCpt, TypeCompte.CHEQUE);
+        nouvClient.ajouter(nouvCheque);
+
+        return this.comptes.add(nouvClient);
     }
 
     /**
