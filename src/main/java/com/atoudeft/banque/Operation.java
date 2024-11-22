@@ -6,9 +6,9 @@ public abstract class Operation {
     private long temps;
     private Date date;
     private TypeOperation typeOperation;
-    private int montant;
+    private double montant;
 
-    public Operation(TypeOperation typeOperation, int montant){
+    public Operation(TypeOperation typeOperation, double montant){
         this.typeOperation = typeOperation;
         this.montant = montant;
     }

@@ -159,11 +159,42 @@ public class GestionnaireEvenementServeur implements GestionnaireEvenement {
                     break;
                 case "DEPOT":
                     if (cnx.getNumeroCompteClient() == null || cnx.getNumeroCompteActuel() == null) {
-                        cnx.envoyer("DEPOT NO 1");
-                    } else{
-
+                        cnx.envoyer("DEPOT NO");
+                    }else {
+                        banque = serveurBanque.getBanque();
+                        CompteClient compteClient = banque.getCompteClient(cnx.getNumeroCompteClient());
+                        boolean accFound= false;
+                        CompteBancaire cpt = null;
+                        for(CompteBancaire account : compteClient.getComptes())
+                        {
+                            if (account.getNumero().equals(cnx.getNumeroCompteActuel())) {
+                                accFound = true;
+                                cpt = account;
+                                break;
+                            }
+                        }
+                        if(!accFound){
+                            cnx.envoyer("DEPOT NO");
+                        }else {
+                            argument = evenement.getArgument();
+                            t = argument.split(" ");
+                            Double montant;
+                            try {
+                                montant = Double.parseDouble(t[0]);
+                            }
+                            catch (NumberFormatException a) {
+                                cnx.envoyer("DEPOT NO");
+                                break;
+                            }
+                            if (!cpt.crediter(montant)) {
+                                cnx.envoyer("DEPOT NO");
+                            } else {
+                                OperationDepot operationDepot = new OperationDepot(TypeOperation.DEPOT, montant);
+                                cpt.getHistorique().empiler(operationDepot);
+                                cnx.envoyer("DEPOT OK " + cpt.getSolde());
+                            }
+                        }
                     }
-
                     break;
                 /******************* TRAITEMENT PAR DÉFAUT *******************/
                 default: //Renvoyer le texte recu convertit en majuscules :
