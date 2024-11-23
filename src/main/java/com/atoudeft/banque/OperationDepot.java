@@ -5,6 +5,9 @@ public class OperationDepot extends Operation{
         super(typeOperation, montant);
     }
 
-
+    @Override
+    public String toString() {
+        return (getDate() + " " + "DEPOT" + " " + getMontant());
+    }
 
 }

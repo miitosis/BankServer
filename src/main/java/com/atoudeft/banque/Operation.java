@@ -11,5 +11,15 @@ public abstract class Operation {
     public Operation(TypeOperation typeOperation, double montant){
         this.typeOperation = typeOperation;
         this.montant = montant;
+        this.date = new Date(System.currentTimeMillis());
     }
+
+    public Date getDate() {
+        return this.date;
+    }
+
+    public double getMontant() {
+        return montant;
+    }
+
 }

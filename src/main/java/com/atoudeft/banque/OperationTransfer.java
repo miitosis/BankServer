@@ -1,10 +1,16 @@
 package com.atoudeft.banque;
 
 public class OperationTransfer extends Operation{
-    private String numCompteClient;
+    private String numCompteConcerne;
 
-    public OperationTransfer(TypeOperation typeOperation, double montant, String numCompteClient) {
+    public OperationTransfer(TypeOperation typeOperation, double montant, String numCompteConcerne) {
         super(typeOperation, montant);
-        this.numCompteClient = numCompteClient;
+        this.numCompteConcerne = numCompteConcerne;
     }
+
+    @Override
+    public String toString() {
+        return (getDate() + " " + "TRANSFER" + " " + getMontant() + " " + this.numCompteConcerne);
+    }
+
 }

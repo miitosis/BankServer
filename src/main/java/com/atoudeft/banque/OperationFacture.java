@@ -9,4 +9,10 @@ public class OperationFacture extends Operation{
         this.numFacture = numFacture;
         this.desc = desc;
     }
+
+    @Override
+    public String toString() {
+        return (getDate() + " " + "FACTURE" + " " + getMontant() + " " + numFacture + " " + this.desc);
+    }
+
 }
