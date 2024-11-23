@@ -392,6 +392,42 @@ public class GestionnaireEvenementServeur implements GestionnaireEvenement {
                         }
                     }
                     break;
+                case "HIST":
+                    // Vérifie si le client est connecté en vérifiant la présence de numéros de comptes
+                    if (cnx.getNumeroCompteClient() == null || cnx.getNumeroCompteActuel() == null) {
+                        // Si un des numéros de comptes est manquant, on envoie "HIST NO" pour indiquer un problème
+                        cnx.envoyer("HIST NO");
+                    } else {
+                        // Récupère la banque depuis le serveur
+                        banque = serveurBanque.getBanque();
+
+                        // Récupère le compte client correspondant au numéro de compte du client
+                        CompteClient compteClient = banque.getCompteClient(cnx.getNumeroCompteClient());
+
+                        // Déclare une variable pour stocker le compte bancaire actuel (initialisé à null)
+                        CompteBancaire cpt = null;
+
+                        // Parcourt la liste des comptes du client pour trouver le compte correspondant
+                        for (CompteBancaire account : compteClient.getComptes()) {
+                            // Vérifie si le numéro du compte correspond au numéro de compte actuel
+                            if (account.getNumero().equals(cnx.getNumeroCompteActuel())) {
+                                // Si le compte est trouvé, l'assigne à 'cpt' et sort de la boucle
+                                cpt = account;
+                                break;
+                            }
+                        }
+
+                        // Vérifie si le compte n'a pas été trouvé (cpt est toujours null)
+                        if (cpt == null) {
+                            // Envoie "HIST NO" pour indiquer qu'aucun compte n'a été trouvé correspondant au numéro actuel
+                            cnx.envoyer("HIST NO");
+                        } else {
+                            // Si le compte a été trouvé, envoie l'historique du compte au client
+                            cnx.envoyer("HIST\n" + cpt.getHistToString());
+                        }
+                    }
+                    // Fin du traitement du cas "HIST"
+                    break;
 
 
 

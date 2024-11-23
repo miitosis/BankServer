@@ -3,7 +3,6 @@ package com.atoudeft.banque;
 import java.util.Date;
 
 public abstract class Operation {
-    private long temps;
     private Date date;
     private TypeOperation typeOperation;
     private double montant;

@@ -3,30 +3,19 @@ package com.atoudeft.banque;
 import java.io.Serializable;
 
 // Classe Pile implémentant une pile chaînée générique
-public class Pile<type> implements Serializable {
+public class PileChainee<type> implements Serializable {
 
     // Noeud sommet de la pile (le dernier élément empilé)
     private Noeud<type> sommet;
 
     // Constructeur par défaut initialisant une pile vide
-    public Pile() {
+    public PileChainee() {
         this.sommet = null;
     }
 
     // Méthode pour vérifier si la pile est vide
     public boolean estVide() {
         return sommet == null;
-    }
-
-    // Méthode pour retirer et retourner l'élément au sommet de la pile
-    public type depiler() throws Exception {
-        if (estVide()) {
-            throw new Exception("La pile est vide.");
-        }
-        // Récupérer la valeur du sommet et le définir sur le noeud suivant
-        type x = sommet.getValeur();
-        sommet = sommet.getSuivant();
-        return x;
     }
 
     // Méthode pour ajouter un élément au sommet de la pile
@@ -56,11 +45,4 @@ public class Pile<type> implements Serializable {
         return stringBuilder1.toString();
     }
 
-    // Méthode pour consulter la valeur au sommet de la pile sans la retirer
-    public type peek() throws Exception {
-        if (estVide()) {
-            throw new Exception("La pile est vide.");
-        }
-        return sommet.getValeur();
-    }
 }
