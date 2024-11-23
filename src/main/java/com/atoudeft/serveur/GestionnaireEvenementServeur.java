@@ -185,7 +185,7 @@ public class GestionnaireEvenementServeur implements GestionnaireEvenement {
                         } else {
                             argument = evenement.getArgument();
                             t = argument.split(" "); // Sépare l'argument par les espaces
-                            Double montant;
+                            double montant;
                             try {
                                 montant = Double.parseDouble(t[0]); // Convertit le montant en nombre
                             } catch (NumberFormatException a) {

@@ -27,7 +27,10 @@ public class CompteClient implements Serializable {
         this.numero = numero;
     }
 
-
+    @Override
+    public boolean equals (Object obj)  {
+        return ((CompteClient)obj).numero.equals(numero);
+    }
 
 
     /**
