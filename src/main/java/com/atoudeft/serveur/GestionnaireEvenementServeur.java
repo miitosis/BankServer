@@ -62,34 +62,34 @@ public class GestionnaireEvenementServeur implements GestionnaireEvenement {
                     cnx.envoyer("LIST " + serveurBanque.list());
                     break;
                 /******************* COMMANDES DE GESTION DE COMPTES *******************/
-                case "NOUVEAU": // Crée un nouveau compte-client
-                    // Vérifie si un client est déjà connecté
-                    if (cnx.getNumeroCompteClient() != null) {
-                        cnx.envoyer("NOUVEAU NO deja connecté"); // Envoie un message indiquant que le client est déjà connecté
+                case "NOUVEAU":
+                    if (cnx.getNumeroCompteClient()!=null) {
+                        cnx.envoyer("NOUVEAU NO");
                         break;
                     }
                     argument = evenement.getArgument();
-                    t = argument.split(":"); // Sépare l'argument par le caractère ':'
-                    if (t.length < 2) {
-                        cnx.envoyer("NOUVEAU NO"); // Envoie un message d'échec si le format de l'argument est incorrect
-                    } else {
-                        numCompteClient = t[0]; // Récupère le numéro de compte client
-                        nip = t[1]; // Récupère le NIP
+                    t = argument.split(":");
+                    if (t.length<2) {
+                        cnx.envoyer("NOUVEAU NO");
+                    }
+                    else {
+                        numCompteClient = t[0];
+                        nip = t[1];
                         banque = serveurBanque.getBanque();
-                        if (banque.ajouter(numCompteClient, nip)) { // Ajoute le compte client à la banque
-                            cnx.setNumeroCompteClient(numCompteClient); // Enregistre le numéro de compte client dans la connexion
-                            cnx.setNumeroCompteActuel(banque.getNumeroCompteParDefaut(numCompteClient)); // Sélectionne le compte par défaut
-                            cnx.envoyer("NOUVEAU OK " + t[0] + " cree"); // Envoie un message de succès
-                        } else {
-                            cnx.envoyer("NOUVEAU NO " + t[0] + " existe"); // Envoie un message indiquant que le compte existe déjà
+                        if (banque.ajouter(numCompteClient,nip)) {
+                            cnx.setNumeroCompteClient(numCompteClient);
+                            cnx.setNumeroCompteActuel(banque.getNumeroCompteParDefaut(numCompteClient));
+                            cnx.envoyer("NOUVEAU OK " + t[0] + " cree");
                         }
+                        else
+                            cnx.envoyer("NOUVEAU NO "+t[0]+" existe");
                     }
                     break;
 
                 case "CONNECT": // Connecte un client existant
                     // Vérifie si un client est déjà connecté
                     if (cnx.getNumeroCompteClient() != null) {
-                        cnx.envoyer("CONNECT NO deja connecté"); // Envoie un message indiquant que le client est déjà connecté
+                        cnx.envoyer("CONNECT NO"); // Envoie un message indiquant que le client est déjà connecté
                         break;
                     }
                     argument = evenement.getArgument();

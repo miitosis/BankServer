@@ -62,9 +62,6 @@ public abstract class CompteBancaire implements Serializable {
     public abstract boolean payerFacture(String numeroFacture, double montant, String description);
     public abstract boolean transferer(double montant, String numeroCompteDestinataire);
 
-    public void addOperation(Operation operation) {
-        historique.empiler(operation);
-    }
 
     //retourne l'historique des operations du code <3
     public PileChainee<Operation> getHistorique() {
